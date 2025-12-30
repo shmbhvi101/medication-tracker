@@ -2,6 +2,14 @@
 
 A fully functional, modern medication tracking application built with MERN (MongoDB, Express, React, Node.js) stack. This app helps users manage medications, receive reminders, and track medication stock with an attractive UI.
 
+<img width="1318" height="654" alt="image" src="https://github.com/user-attachments/assets/ba18f20a-f531-4bf4-9b13-aa4a99a783eb" />
+<img width="1283" height="653" alt="image" src="https://github.com/user-attachments/assets/c7ac0112-cdec-43c6-bd5f-6b0faafd9bb5" />
+<img width="1282" height="653" alt="image" src="https://github.com/user-attachments/assets/8d296d16-7355-4cd8-ad58-10e6f4ee4ae4" />
+<img width="1279" height="650" alt="image" src="https://github.com/user-attachments/assets/4590f40c-cae9-4304-8cc8-940681945cf8" />
+
+
+
+
 ## 🎯 Features
 
 ### Core Functionality
