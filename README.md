@@ -10,7 +10,7 @@ A fully functional, modern medication tracking application built with MERN (Mong
 
 
 
-## 🎯 Features
+## Features
 
 ### Core Functionality
 - **Medication Management**: Add, edit, and delete medications with dosage and frequency
@@ -26,39 +26,10 @@ A fully functional, modern medication tracking application built with MERN (Mong
 - **Real-time Updates**: All changes persist and update instantly
 - **Visual Feedback**: Color-coded stock levels, status badges, and progress indicators
 
-## 📁 Project Structure
-
-```
-medication-tracker/
-├── server/
-│   ├── models/
-│   │   └── Medication.js          # MongoDB schema
-│   ├── routes/
-│   │   └── medications.js          # API endpoints
-│   ├── server.js                   # Express server
-│   ├── .env                        # Environment variables
-│   └── package.json
-│
-├── client/
-│   ├── src/
-│   │   ├── components/
-│   │   │   ├── MedicationList.jsx  # Medications display
-│   │   │   ├── AddMedication.jsx   # Form for add/edit
-│   │   │   └── TodaySchedule.jsx   # Daily schedule view
-│   │   ├── App.jsx                 # Main app component
-│   │   ├── App.css                 # All styling
-│   │   └── main.jsx                # React entry point
-│   ├── index.html
-│   ├── package.json
-│   └── vite.config.js
-│
-└── README.md
-```
-
-## 🚀 Installation & Setup
+## Installation & Setup
 
 ### Prerequisites
-- Node.js (v14 or higher)
+- Node.js
 - MongoDB (local or MongoDB Atlas)
 - npm or yarn
 
@@ -92,7 +63,7 @@ Update `package.json` scripts:
 }
 ```
 
-Copy all backend files from the artifacts:
+Copy all backend files:
 - `server.js` → `server/server.js`
 - `Medication.js` → `server/models/Medication.js`
 - `medications.js` → `server/routes/medications.js`
@@ -107,7 +78,7 @@ npm install
 npm install axios lucide-react
 ```
 
-Copy all frontend files from the artifacts:
+Copy all frontend files:
 - `App.jsx` → `client/src/App.jsx`
 - `App.css` → `client/src/App.css`
 - `main.jsx` → `client/src/main.jsx`
@@ -145,7 +116,7 @@ Frontend runs on `http://localhost:5173`
 ### Schedule
 - `GET /api/medications/schedule/today` - Get today's schedule
 
-## 📊 Data Model
+## Data Model
 
 ### Medication Schema
 ```javascript
@@ -167,53 +138,18 @@ Frontend runs on `http://localhost:5173`
 }
 ```
 
-## 🎨 Design & UI Highlights
-
-### Color Scheme
-- **Primary**: Blue (#3b82f6) - Main actions
-- **Secondary**: Green (#10b981) - Positive actions
-- **Danger**: Red (#ef4444) - Warnings/deletions
-- **Warning**: Orange (#f97316) - Low stock
-
 ### Key UI Components
 1. **Medication Cards**: Display medication info with visual stock indicators
 2. **Schedule Items**: Grouped by status (overdue, due soon, taken, skipped)
 3. **Form**: Clean, intuitive form for medication entry
 4. **Navbar**: Sticky navigation with 3 main views
 
-## 💾 Local Storage & Persistence
+## Local Storage & Persistence
 
 - All data is persisted in MongoDB
 - No browser storage dependencies
 - Real-time sync between frontend and backend
 - History tracked for all dose entries
-
-## 🔄 Trade-offs & Design Decisions
-
-### 1. **3-Screen Limitation**
-- **Choice**: Medications List, Today's Schedule, Add/Edit Form
-- **Rationale**: Minimal and focused on core user flows
-- **Trade-off**: No separate edit screen, uses modal-like form
-
-### 2. **Database Choice**
-- **Choice**: MongoDB with Mongoose
-- **Rationale**: Flexible schema for dose history, easy to scale
-- **Trade-off**: Not suitable for complex relational queries
-
-### 3. **Reminder System**
-- **Choice**: Client-side scheduling with status tracking
-- **Rationale**: Simple to implement without server-side jobs
-- **Trade-off**: No mobile push notifications (can be added later)
-
-### 4. **Stock Management**
-- **Choice**: Manual refill with threshold alerts
-- **Rationale**: Respects privacy and doesn't assume user workflow
-- **Trade-off**: No automatic refill suggestions beyond threshold
-
-### 5. **UI Framework**
-- **Choice**: Pure CSS with Tailwind-like utility approach
-- **Rationale**: Full control over styling and animations
-- **Trade-off**: Larger CSS file than Tailwind would be
 
 ## 🧪 Testing the App
 
@@ -225,25 +161,6 @@ Frontend runs on `http://localhost:5173`
 5. **Low Stock Alert**: When stock ≤ 3, refill button appears
 6. **History**: View dose history in medication details
 
-## 🚀 Future Enhancements
-
-- Push notifications for reminders
-- Medication search and filtering
-- Export history as PDF
-- Multi-user support with authentication
-- Recurring refill orders
-- Integration with pharmacy APIs
-- Dark mode toggle
-- Voice-based commands
-
-## 📝 Assumptions
-
-1. Single user application (no authentication)
-2. MongoDB running locally or accessible via connection string
-3. 24-hour time format for scheduling
-4. Low stock threshold fixed at 3 (can be made configurable)
-5. Doses tracked by date, not absolute time windows
-6. No timezone handling (all times in user's local timezone)
 
 ## 🛠️ Dependencies
 
@@ -258,29 +175,13 @@ Frontend runs on `http://localhost:5173`
 - `lucide-react`: Icon library
 - `axios`: HTTP client
 
-## 📱 Browser Support
 
-- Chrome 90+
-- Firefox 88+
-- Safari 14+
-- Edge 90+
+## Security Notes
 
-## 🔒 Security Notes
-
-- No authentication implemented (as per requirements)
 - Input validation on backend
 - Environment variables for sensitive data
 - CORS enabled for localhost development
 
-## 📄 License
-
-MIT
-
-## 👨‍💻 Author
-
-Built as a technical challenge submission
-
----
 
 ## Quick Start (TL;DR)
 
