@@ -151,7 +151,34 @@ Frontend runs on `http://localhost:5173`
 - Real-time sync between frontend and backend
 - History tracked for all dose entries
 
-## 🧪 Testing the App
+##  Trade-offs & Design Decisions
+
+### 1. **3-Screen Limitation**
+- **Choice**: Medications List, Today's Schedule, Add/Edit Form
+- **Rationale**: Minimal and focused on core user flows
+- **Trade-off**: No separate edit screen, uses modal-like form
+
+### 2. **Database Choice**
+- **Choice**: MongoDB with Mongoose
+- **Rationale**: Flexible schema for dose history, easy to scale
+- **Trade-off**: Not suitable for complex relational queries
+
+### 3. **Reminder System**
+- **Choice**: Client-side scheduling with status tracking
+- **Rationale**: Simple to implement without server-side jobs
+- **Trade-off**: No mobile push notifications (can be added later)
+
+### 4. **Stock Management**
+- **Choice**: Manual refill with threshold alerts
+- **Rationale**: Respects privacy and doesn't assume user workflow
+- **Trade-off**: No automatic refill suggestions beyond threshold
+
+### 5. **UI Framework**
+- **Choice**: Pure CSS with Tailwind-like utility approach
+- **Rationale**: Full control over styling and animations
+- **Trade-off**: Larger CSS file than Tailwind would be
+
+##  Testing the App
 
 ### Sample Workflow
 1. **Create Medication**: Add "Aspirin 500mg" with 30 doses, daily at 09:00 and 18:00
@@ -160,6 +187,15 @@ Frontend runs on `http://localhost:5173`
 4. **Check Stock**: Watch stock decrease automatically
 5. **Low Stock Alert**: When stock ≤ 3, refill button appears
 6. **History**: View dose history in medication details
+
+##  Assumptions
+
+1. Single user application (no authentication)
+2. MongoDB running locally or accessible via connection string
+3. 24-hour time format for scheduling
+4. Low stock threshold fixed at 3 (can be made configurable)
+5. Doses tracked by date, not absolute time windows
+6. No timezone handling (all times in user's local timezone)
 
 
 ## 🛠️ Dependencies
