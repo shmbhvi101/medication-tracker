@@ -12,12 +12,16 @@ function MedicationList({ medications, onDelete, onEdit, onRefill, onMarkDose })
     const today = new Date().toDateString();
     const totalScheduled = med.times.length; // Total doses scheduled for today
     
-    const todayDoses = med.dosesHistory.filter(d => 
-      new Date(d.date).toDateString() === today
-    );
+    // Count unique doses for today (avoid duplicates)
+    const uniqueDoses = {};
+    med.dosesHistory.forEach(d => {
+      if (new Date(d.date).toDateString() === today) {
+        uniqueDoses[d.time] = d.status; // Last entry for each time wins
+      }
+    });
     
-    const taken = todayDoses.filter(d => d.status === 'taken').length;
-    const skipped = todayDoses.filter(d => d.status === 'skipped').length;
+    const taken = Object.values(uniqueDoses).filter(s => s === 'taken').length;
+    const skipped = Object.values(uniqueDoses).filter(s => s === 'skipped').length;
     const remaining = totalScheduled - taken - skipped;
     
     return {

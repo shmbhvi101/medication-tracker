@@ -1,11 +1,7 @@
 // client/src/App.jsx
 import { useState, useEffect } from 'react';
-import { Pill, Plus, Calendar, BarChart3, Bell, Users, Download } from 'lucide-react';
+import { Pill, Plus, Calendar } from 'lucide-react';
 import Home from './pages/Home';
-import Analytics from './components/Analytics';
-import Reminders from './components/Reminders';
-import FamilyProfiles from './components/FamilyProfiles';
-import DataExport from './components/DataExport';
 import './App.css';
 
 function App() {
@@ -125,30 +121,6 @@ function App() {
               <Calendar size={20} /> Today
             </button>
             <button
-              className={`nav-btn ${currentPage === 'analytics' ? 'active' : ''}`}
-              onClick={() => setCurrentPage('analytics')}
-            >
-              <BarChart3 size={20} /> Analytics
-            </button>
-            <button
-              className={`nav-btn ${currentPage === 'reminders' ? 'active' : ''}`}
-              onClick={() => setCurrentPage('reminders')}
-            >
-              <Bell size={20} /> Reminders
-            </button>
-            <button
-              className={`nav-btn ${currentPage === 'family' ? 'active' : ''}`}
-              onClick={() => setCurrentPage('family')}
-            >
-              <Users size={20} /> Family
-            </button>
-            <button
-              className={`nav-btn ${currentPage === 'export' ? 'active' : ''}`}
-              onClick={() => setCurrentPage('export')}
-            >
-              <Download size={20} /> Export
-            </button>
-            <button
               className={`nav-btn add-btn ${currentPage === 'add' ? 'active' : ''}`}
               onClick={() => {
                 setEditingMed(null);
@@ -165,52 +137,18 @@ function App() {
         {loading && <div className="loading">Loading...</div>}
 
         {!loading && (
-          <>
-            {currentPage === 'analytics' && (
-              <Analytics medications={medications} />
-            )}
-
-            {currentPage === 'reminders' && (
-              <Reminders medications={medications} />
-            )}
-
-            {currentPage === 'family' && (
-              <FamilyProfiles />
-            )}
-
-            {currentPage === 'export' && (
-              <DataExport medications={medications} onImport={async (importedMeds) => {
-                // Sync imported medications with backend
-                for (const med of importedMeds) {
-                  try {
-                    await fetch(API_URL, {
-                      method: 'POST',
-                      headers: { 'Content-Type': 'application/json' },
-                      body: JSON.stringify(med)
-                    });
-                  } catch (err) {
-                    console.error('Error importing medication:', err);
-                  }
-                }
-                fetchMedications();
-              }} />
-            )}
-
-            {(currentPage === 'list' || currentPage === 'schedule' || currentPage === 'add') && (
-              <Home
-                medications={medications}
-                onAddMedication={addMedication}
-                onUpdateMedication={updateMedication}
-                onDeleteMedication={deleteMedication}
-                onMarkDose={markDose}
-                onRefillMedication={refillMedication}
-                currentPage={currentPage}
-                setCurrentPage={setCurrentPage}
-                editingMed={editingMed}
-                setEditingMed={setEditingMed}
-              />
-            )}
-          </>
+          <Home
+            medications={medications}
+            onAddMedication={addMedication}
+            onUpdateMedication={updateMedication}
+            onDeleteMedication={deleteMedication}
+            onMarkDose={markDose}
+            onRefillMedication={refillMedication}
+            currentPage={currentPage}
+            setCurrentPage={setCurrentPage}
+            editingMed={editingMed}
+            setEditingMed={setEditingMed}
+          />
         )}
       </div>
     </div>

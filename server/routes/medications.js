@@ -90,14 +90,40 @@ router.post('/:id/dose', async (req, res) => {
       return res.status(400).json({ message: 'Invalid status' });
     }
 
-    medication.dosesHistory.push({
-      date: new Date(),
-      time: time || new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' }),
-      status
-    });
+    const today = new Date().toDateString();
 
-    if (status === 'taken' && medication.currentStock > 0) {
-      medication.currentStock -= 1;
+    // Check if a dose for this time today already exists
+    const existingDose = medication.dosesHistory.find(d => 
+      new Date(d.date).toDateString() === today && d.time === time
+    );
+
+    if (existingDose) {
+      // Update existing dose instead of adding duplicate
+      existingDose.status = status;
+      
+      // Recalculate stock if changing from skipped to taken
+      if (existingDose.status === 'taken' && status === 'taken') {
+        // Already taken, no change needed
+      } else if (existingDose.status === 'skipped' && status === 'taken') {
+        // Changing from skipped to taken, reduce stock
+        if (medication.currentStock > 0) {
+          medication.currentStock -= 1;
+        }
+      } else if (existingDose.status === 'taken' && status === 'skipped') {
+        // Changing from taken to skipped, increase stock back
+        medication.currentStock += 1;
+      }
+    } else {
+      // Add new dose entry
+      medication.dosesHistory.push({
+        date: new Date(),
+        time: time || new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' }),
+        status
+      });
+
+      if (status === 'taken' && medication.currentStock > 0) {
+        medication.currentStock -= 1;
+      }
     }
 
     const updated = await medication.save();

@@ -18,35 +18,52 @@ function TodaySchedule({ medications, onMarkDose }) {
   }, []);
 
   useEffect(() => {
+    buildSchedule();
+  }, [medications]);
+
+  const buildSchedule = () => {
     const today = new Date().toDateString();
     const items = [];
 
     medications.forEach(med => {
       med.times.forEach((time, idx) => {
-        // Create a unique key combining time and index to handle multiple doses at same time
-        const doseKey = `${time}-${idx}`;
-        
-        const doseRecord = med.dosesHistory.find(d => 
+        // Find if this specific dose was already recorded today
+        const todaysDoses = med.dosesHistory.filter(d => 
           new Date(d.date).toDateString() === today && d.time === time
         );
 
-        items.push({
-          medId: med._id,
-          medName: med.name,
-          dosage: med.dosage,
-          time,
-          doseKey,
-          status: doseRecord ? doseRecord.status : 'pending',
-          lowStock: med.currentStock <= med.lowStockThreshold,
-          currentStock: med.currentStock,
-          totalStock: med.totalStock
-        });
+        // Only add item if dose hasn't been recorded for this time yet
+        if (todaysDoses.length === 0) {
+          items.push({
+            medId: med._id,
+            medName: med.name,
+            dosage: med.dosage,
+            time,
+            timeIndex: idx,
+            status: 'pending',
+            lowStock: med.currentStock <= med.lowStockThreshold,
+            currentStock: med.currentStock
+          });
+        } else {
+          // If dose was already recorded, add it with its status
+          const doseRecord = todaysDoses[0];
+          items.push({
+            medId: med._id,
+            medName: med.name,
+            dosage: med.dosage,
+            time,
+            timeIndex: idx,
+            status: doseRecord.status,
+            lowStock: med.currentStock <= med.lowStockThreshold,
+            currentStock: med.currentStock
+          });
+        }
       });
     });
 
     items.sort((a, b) => a.time.localeCompare(b.time));
     setScheduleItems(items);
-  }, [medications]);
+  };
 
   const timeToMinutes = (timeStr) => {
     const [h, m] = timeStr.split(':').map(Number);
@@ -93,7 +110,7 @@ function TodaySchedule({ medications, onMarkDose }) {
         </div>
         <div className="schedule-items">
           {items.map((item, idx) => (
-            <div key={idx} className={`schedule-item ${item.status || 'pending'}`}>
+            <div key={`${item.medId}-${item.time}-${idx}`} className={`schedule-item ${item.status || 'pending'}`}>
               <div className="item-time">
                 <Clock size={20} />
                 <span className="time">{formatTime(item.time)}</span>
